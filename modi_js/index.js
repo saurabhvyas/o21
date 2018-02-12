@@ -74,7 +74,8 @@ app.post('/', function(req, res ) {
 
 
   // write received text as a transcription txt file in destination folder
-   fs.writeFile('public/final_modi_data/modi_' + iterator + '.txt', String(req.body), (err) => {  
+   output_file_name='public/final_modi_data/modi_' + iterator 
+   fs.writeFile(output_file_name + '.txt', String(req.body), (err) => {  
     // throws an error, you could also catch it here
     if (err) throw err;
 
@@ -82,6 +83,9 @@ app.post('/', function(req, res ) {
     console.log('Transcripton file saved!');
 });
 
+  // copy current audio wav file to destination folder
+   input_file_name='public/modi_data/modi_' + iterator + '.wav'
+   fs.createReadStream(input_file_name).pipe(fs.createWriteStream(output_file_name + '.wav'));
 
 
   //res.render('main', { body: modi_text,  audio_file_name:'a.wav'}
