@@ -9,6 +9,13 @@ $( document ).ready(function() {
   function Onsuccess(response) { 
   console.log(response);
   $('#audioelement').attr( 'src', response )
+  
+  var temp_string = $('#text_body').text().replace($('#selected_text').text(),'');
+  
+  //console.log(temp_string);
+  // removed selected text from text body, as it wont be needed for future use
+  $('#text_body').text(temp_string);
+
 
 var audio_element = document.getElementById('audioparent');
 
@@ -30,11 +37,18 @@ $.ajax({
 });
 
 
+
   }
 
    function create_post_request() {
 
   console.log($('#selected_text').text());
+  var temp_string = $('#text_body').text().replace($('#selected_text').text(),'');
+  
+  console.log(temp_string);
+  // removed selected text from text body, as it wont be needed for future use
+  $('#text_body').text(temp_string);
+
   //ChromeSamples.log('Posting request to GitHub API...');
   fetch('/', {
     method: 'post',
