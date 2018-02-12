@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 
 
 app.use(express.static('public'))
-app.use(bodyParser.raw());
+app.use(bodyParser.text());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -34,6 +34,8 @@ var output = read('public/modi.txt', function(data) {
 
 audio_file_names=[];
 input_audio_dir='public/modi_data/'
+iterator=0;
+
 
 fs.readdir( input_audio_dir, function(err, items) {
     
@@ -67,9 +69,12 @@ app.get('/', function(req, res ) {
 app.post('/', function(req, res ) {
 
   console.log(req.body);
+  iterator=iterator+1;
+  console.log(' iterator : ' + iterator);
+
 
   // write received text as a transcription txt file in destination folder
-   fs.writeFile('public/final_modi_data/2pac.txt', lyrics, (err) => {  
+   fs.writeFile('public/final_modi_data/modi_' + iterator + '.txt', String(req.body), (err) => {  
     // throws an error, you could also catch it here
     if (err) throw err;
 
@@ -80,7 +85,7 @@ app.post('/', function(req, res ) {
 
 
   //res.render('main', { body: modi_text,  audio_file_name:'a.wav'}
-  res.send('a.wav');
+  res.send('modi_data/' + audio_file_names[iterator]);
 
 }
 

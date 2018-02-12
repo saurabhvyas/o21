@@ -20,7 +20,7 @@ $.ajax({
   url: '/',
   data: $('#selected_text').text(),
   success: Onsuccess,
-  dataType:'text'
+  contentType:'text/plain'
 });
 
 
