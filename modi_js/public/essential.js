@@ -8,6 +8,12 @@ $( document ).ready(function() {
 
   function Onsuccess(response) { 
   console.log(response);
+  $('#audioelement').attr( 'src', response )
+
+var audio_element = document.getElementById('audioparent');
+
+audio_element.load(); //call this to just preload the audio without playing
+audio_element.play(); //call this to play the song right away
 
 }
 
