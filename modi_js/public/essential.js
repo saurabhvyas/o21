@@ -6,7 +6,29 @@
 
 $( document ).ready(function() {
 
+  function Onsuccess(response) { 
+  console.log(response);
+
+}
+
+   function create_post_request_jquery() {
+
+
+  
+$.ajax({
+  type: "POST",
+  url: '/',
+  data: $('#selected_text').text(),
+  success: Onsuccess,
+  dataType:'text'
+});
+
+
+  }
+
    function create_post_request() {
+
+  console.log($('#selected_text').text());
   //ChromeSamples.log('Posting request to GitHub API...');
   fetch('/', {
     method: 'post',
@@ -30,7 +52,7 @@ $( document ).ready(function() {
    
 { 
 
-create_post_request()
+create_post_request_jquery()
 
 }
 
