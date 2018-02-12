@@ -1,0 +1,4 @@
+important commands
+
+
+ffmpeg -i feeny.wav -ss 06.850 -to 09.320  -c copy feeny_new.wav
