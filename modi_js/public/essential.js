@@ -6,6 +6,20 @@
 
 $( document ).ready(function() {
 
+  temp=$('#last_transcript').text()
+
+  if ( temp ) {
+   
+  console.log('resume text present');
+  len=temp.length;
+  console.log(temp);
+
+  main_text=$('#text_body').text()
+  temp2=main_text.substring(main_text.indexOf(temp) + len );
+  $('#text_body').text(temp2);
+
+  }
+
   
   function Onsuccess(response) { 
   alert('Everything Good!');

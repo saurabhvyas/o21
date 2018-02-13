@@ -37,6 +37,9 @@ input_audio_dir='public/modi_data/'
 output_audio_dir='public/final_modi_data/'
 iterator=0;
 
+// this will hold last saved transcription when user resumes operation
+last_transcription=''
+
 
 
 
@@ -56,8 +59,19 @@ fs.readdir( output_audio_dir, function(err, items) {
    
   // console.log(items);
    
+// get the last latest file's id
    iterator=items[items.length -1 ].match(/\d+/)[0]
-   console.log('resuming from' + iterator);
+   console.log('resuming from ' + iterator);
+
+ 
+fs.readFile(output_audio_dir + 'modi_' + iterator + '.txt', 'utf8', (e, data) => {
+    if (e) throw e;
+    console.log(data);
+    last_transcription=data;
+    iterator=iterator++; // advance iterator since we need element after currently saved last element
+    //console.log(iterator);
+    
+});
   
 
    
@@ -91,7 +105,7 @@ fs.readdir( input_audio_dir, function(err, items) {
 
 app.get('/', function(req, res ) { 
 
- res.render('main', {  body: modi_text , audio_file_name: 'modi_data/' + audio_file_names[iterator]}
+ res.render('main', {  body: modi_text , audio_file_name: 'modi_data/' + audio_file_names[iterator], last_transcription:last_transcription}
 
 )}
 )
