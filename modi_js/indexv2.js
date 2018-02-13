@@ -34,15 +34,38 @@ var output = read('public/modi.txt', function(data) {
 
 audio_file_names=[];
 input_audio_dir='public/modi_data/'
+output_audio_dir='public/final_modi_data/'
 iterator=0;
+
+
 
 
 if(process.argv[2]==='resume') {
 
 console.log('resuming from last data point');
 
+fs.readdir( output_audio_dir, function(err, items) {
+    
+    // sort files in chronological order
+
+   items.sort(function(a, b) {
+               return fs.statSync(output_audio_dir + a).mtime.getTime() - 
+                      fs.statSync(output_audio_dir + b).mtime.getTime();
+           });
+ 
+   
+  // console.log(items);
+   
+   iterator=items[items.length -1 ].match(/\d+/)[0]
+   console.log('resuming from' + iterator);
+  
+
+   
+});
 
 }
+
+
 
 fs.readdir( input_audio_dir, function(err, items) {
     
@@ -68,7 +91,7 @@ fs.readdir( input_audio_dir, function(err, items) {
 
 app.get('/', function(req, res ) { 
 
- res.render('main', {  body: modi_text , audio_file_name: 'modi_data/' + audio_file_names[0]}
+ res.render('main', {  body: modi_text , audio_file_name: 'modi_data/' + audio_file_names[iterator]}
 
 )}
 )
@@ -82,6 +105,7 @@ app.post('/', function(req, res ) {
 
   // write received text as a transcription txt file in destination folder
    output_file_name='public/final_modi_data/modi_' + iterator 
+   
    fs.writeFile(output_file_name + '.txt', String(req.body), (err) => {  
     // throws an error, you could also catch it here
     if (err) throw err;
