@@ -1,14 +1,19 @@
 # this file wil parse input textgrid file, and extract sentence segments
 
 from praatio import tgio
-import sox
+#import sox
+import ffmpeg
 
 # create transformer
-tfm = sox.Transformer()
+#tfm = sox.Transformer()
+
 
 textgrid_location = "/mnt/orangedrive2/feeny_dataset/new_data/text/maan_ki_baat_june.TextGrid"
 input_audio_location = "/mnt/orangedrive2/feeny_dataset/new_data/audio/maan_ki_baat_june.wav"
 output_dir_location = "/mnt/orangedrive2/feeny_dataset/new_data/trimmed/" 
+
+
+#ffmpeg_stream = ffmpeg.input(input_audio_location)
 
 sentences=[]
 
@@ -19,7 +24,7 @@ sentence_started=False
 sentences_counter=0
 
 def trim_audio(audiofile_path,output_dir_path,start_time,end_time):
-    
+    global ffmpeg_stream
     # create the output file.
     if start_time == end_time:
         return 
@@ -27,8 +32,16 @@ def trim_audio(audiofile_path,output_dir_path,start_time,end_time):
     print(start_time)
     print(end_time)
     try:
-        tfm.trim(start_time, end_time)
-        tfm.build(audiofile_path,  output_dir_path + str(sentences_counter) + ".wav" )
+        #ffmpeg_stream=ffmpeg_stream.trim(start=start_time, end=end_time)
+        (
+        ffmpeg
+        .input(audiofile_path, ss=start_time, t=(end_time - start_time))
+        .output(output_dir_path + str(sentences_counter) + ".wav")
+        .run()
+        )
+
+        #ffmpeg_stream=ffmpeg_stream.output(ffmpeg_stream,output_dir_path + str(sentences_counter) + ".wav")
+        #ffmpeg.run(ffmpeg_stream)
     except Exception as e: print(e)
 
 def parse_text_grid():
